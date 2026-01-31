@@ -1,36 +1,43 @@
 function readImage() {
   const file = document.getElementById("imageInput").files[0];
   if (!file) {
-    alert("Please upload a screenshot.");
+    alert("Upload a screenshot cropped to odds area");
     return;
   }
 
-  document.getElementById("loading").innerText = "🔍 Reading image... please wait";
+  document.getElementById("loading").innerText = "⚡ Fast scanning odds...";
 
   Tesseract.recognize(
     file,
     'eng',
-    { logger: m => console.log(m) }
+    {
+      tessedit_char_whitelist: '0123456789.x',
+      tessedit_pageseg_mode: Tesseract.PSM.SINGLE_BLOCK,
+      preserve_interword_spaces: '0',
+      logger: () => {}
+    }
   ).then(({ data: { text } }) => {
     document.getElementById("loading").innerText = "";
 
-    const extracted = extractOdds(text);
-    if (extracted.length < 10) {
-      alert("Could not detect enough odds. Try a clearer screenshot.");
+    const odds = extractOdds(text);
+
+    if (odds.length < 10) {
+      alert("Crop tighter around odds and retry");
       return;
     }
 
-    document.getElementById("oddsInput").value = extracted.join("\n");
+    document.getElementById("oddsInput").value = odds.join("\n");
     analyzeOdds();
   });
 }
 
 function extractOdds(text) {
-  const matches = text.match(/\d+(\.\d+)?x?/g) || [];
-  return matches
-    .map(x => parseFloat(x.replace("x", "")))
+  return text
+    .replace(/[^0-9.x]/g, ' ')
+    .split(/\s+/)
+    .map(x => parseFloat(x.replace('x','')))
     .filter(x => x >= 1 && x <= 100)
-    .slice(0, 60);
+    .slice(0, 50);
 }
 
 function analyzeOdds() {
