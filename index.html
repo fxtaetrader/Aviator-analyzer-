@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Aviator Odds Analyzer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>✈️ Aviator Odds Analyzer</h1>
+  <p class="note">Paste 30–50 previous odds (one per line)</p>
+
+  <textarea id="oddsInput" placeholder="Example:
+1.22
+4.19
+1.08
+2.45
+7.84"></textarea>
+
+  <button onclick="analyzeOdds()">Analyze</button>
+
+  <div id="stats" class="card"></div>
+  <div id="expected" class="card"></div>
+
+  <p class="warning">
+    ⚠️ This tool does NOT predict exact outcomes. It provides statistical expectations only.
+  </p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
