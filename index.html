@@ -4,27 +4,33 @@
   <meta charset="UTF-8">
   <title>Aviator Odds Analyzer</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
 <body>
 
 <div class="container">
   <h1>✈️ Aviator Odds Analyzer</h1>
-  <p class="note">Paste 30–50 previous odds (one per line)</p>
 
-  <textarea id="oddsInput" placeholder="Example:
-1.22
+  <p class="note">Upload Aviator history screenshot OR paste odds manually</p>
+
+  <input type="file" id="imageInput" accept="image/*">
+  <button onclick="readImage()">📸 Analyze Screenshot</button>
+
+  <p class="note">OR paste odds (one per line)</p>
+
+  <textarea id="oddsInput" placeholder="1.22
 4.19
 1.08
-2.45
-7.84"></textarea>
+2.45"></textarea>
 
-  <button onclick="analyzeOdds()">Analyze</button>
+  <button onclick="analyzeOdds()">Analyze Odds</button>
 
+  <div id="loading"></div>
   <div id="stats" class="card"></div>
   <div id="expected" class="card"></div>
 
   <p class="warning">
-    ⚠️ This tool does NOT predict exact outcomes. It provides statistical expectations only.
+    ⚠️ This tool provides statistical simulations, NOT guaranteed predictions.
   </p>
 </div>
 
